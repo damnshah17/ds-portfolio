@@ -768,15 +768,42 @@ function InspectingApp({
 function RecommendationConsole() {
   const [recommendation, setRecommendation] = useState("")
   const [recommendations, setRecommendations] = useState(starterRecommendations)
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
+    "idle",
+  )
 
-  function submitRecommendation(event: FormEvent<HTMLFormElement>) {
+  async function submitRecommendation(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
     const trimmed = recommendation.trim()
     if (!trimmed) return
 
-    setRecommendations((current) => [trimmed, ...current])
-    setRecommendation("")
+    setStatus("sending")
+
+    const formData = new FormData()
+    formData.append("type", "Side quest suggestion")
+    formData.append("suggestion", trimmed)
+
+    try {
+      const response = await fetch("https://formspree.io/f/mzdnvowj", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      })
+
+      if (!response.ok) {
+        setStatus("error")
+        return
+      }
+
+      setRecommendations((current) => [trimmed, ...current])
+      setRecommendation("")
+      setStatus("sent")
+    } catch {
+      setStatus("error")
+    }
   }
 
   const rollingItems = [...recommendations, ...recommendations]
@@ -787,9 +814,15 @@ function RecommendationConsole() {
       className="mt-5 overflow-hidden rounded-[2rem] border border-[#0b2f23]/10 bg-[#eef3d7] p-4 shadow-[0_18px_50px_rgba(6,43,32,0.1)]"
     >
       <div className="mb-4 flex items-center justify-between">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#3b7358]">
-          Suggestions
-        </p>
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#254333]">
+            Suggestions
+          </p>
+
+          <p className="mt-1 text-xs font-semibold text-[#4c6d5d]">
+            Dare me a sketch, suggest a book, or drop a side quest.
+          </p>
+        </div>
 
         <span className="h-2 w-2 rounded-full bg-[#0b2f23]" />
       </div>
@@ -817,21 +850,46 @@ function RecommendationConsole() {
         </motion.div>
       </div>
 
-      <form onSubmit={submitRecommendation} className="mt-4 flex gap-2">
-        <input
-          value={recommendation}
-          onChange={(event) => setRecommendation(event.target.value)}
-          placeholder="drop a recommendation..."
-          className="min-w-0 flex-1 rounded-full border border-[#0b2f23]/10 bg-white/70 px-4 py-3 text-sm text-[#0b2f23] outline-none placeholder:text-[#78917a] focus:border-[#0b2f23]"
-        />
+      <form onSubmit={submitRecommendation} className="mt-4 space-y-3">
+        <div className="flex gap-2">
+          <input
+            name="suggestion"
+            value={recommendation}
+            onChange={(event) => {
+              setRecommendation(event.target.value)
+              if (status !== "idle") setStatus("idle")
+            }}
+            placeholder="drop a recommendation..."
+            className="min-w-0 flex-1 rounded-full border border-[#0b2f23]/10 bg-white/70 px-4 py-3 text-sm text-[#0b2f23] outline-none placeholder:text-[#78917a] focus:border-[#0b2f23]"
+          />
 
-        <button
-          type="submit"
-          className="grid h-12 w-12 place-items-center rounded-full bg-[#0b2f23] text-[#d5e8b4] transition hover:bg-[#174b38]"
-          aria-label="Send recommendation"
-        >
-          <Send size={17} />
-        </button>
+          <button
+            type="submit"
+            disabled={status === "sending"}
+            className="grid h-12 w-12 place-items-center rounded-full bg-[#0b2f23] text-[#d5e8b4] transition hover:bg-[#174b38] disabled:cursor-not-allowed disabled:opacity-60"
+            aria-label="Send recommendation"
+          >
+            <Send size={17} />
+          </button>
+        </div>
+
+        {status === "sending" ? (
+          <p className="text-xs font-semibold text-[#4c6d5d]">
+            Sending the side quest...
+          </p>
+        ) : null}
+
+        {status === "sent" ? (
+          <p className="rounded-2xl bg-[#d5e8b4] px-4 py-3 text-xs font-bold text-[#0b2f23]">
+            Side quest received. I will pretend I am mentally prepared.
+          </p>
+        ) : null}
+
+        {status === "error" ? (
+          <p className="rounded-2xl bg-[#f0a6c8] px-4 py-3 text-xs font-bold text-[#0b2f23]">
+            Something broke. Very on brand. Try again once.
+          </p>
+        ) : null}
       </form>
     </div>
   )
