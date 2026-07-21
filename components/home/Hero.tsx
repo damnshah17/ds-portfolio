@@ -23,7 +23,7 @@ const currentlyDoing = [
 const statusCards = [
   {
     label: "Base",
-    value: "Binghamton University",
+    value: "Binghamton University, NY",
   },
   {
     label: "Mode",
@@ -84,7 +84,7 @@ function FloatingMascot() {
         transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
         className="absolute right-2 top-1 rounded-full border border-[#d5e8b4]/30 bg-[#0a382a]/90 px-3 py-1 text-xs font-semibold text-[#d5e8b4]"
       >
-        building...
+        Chello...
       </motion.div>
     </motion.div>
   )
@@ -131,7 +131,7 @@ export function Hero() {
           >
             <div className="inline-flex items-center gap-2 rounded-full border border-[#d5e8b4]/20 bg-[#0a382a]/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#d5e8b4]">
               <MapPin size={14} />
-              Binghamton University
+              Binghamton University, NY
             </div>
 
             <p className="text-xl font-medium text-[#f7f3e8] sm:text-2xl">
@@ -222,7 +222,7 @@ export function Hero() {
               className="inline-flex items-center gap-2 rounded-full border border-[#f7f3e8]/20 px-5 py-3 text-sm font-medium text-[#f7f3e8] transition hover:border-[#d5e8b4] hover:bg-white/5"
             >
               <Mail size={16} />
-              Contact me
+              Let's Connect
             </a>
           </motion.div>
         </div>
@@ -237,7 +237,7 @@ export function Hero() {
             className="relative rounded-[2rem] border border-[#f7f3e8]/15 bg-[#0a382a]/85 p-6 shadow-[0_25px_70px_rgba(0,0,0,0.2)] backdrop-blur-sm sm:p-7"
           >
             <div className="absolute -right-4 -top-4 rotate-6 rounded-2xl bg-[#d5e8b4] px-4 py-3 text-sm font-bold text-[#0b2f23] shadow-xl">
-              not a template
+              Building...
             </div>
 
             <div className="flex items-center gap-2">

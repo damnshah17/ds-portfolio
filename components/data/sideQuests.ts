@@ -1,9 +1,8 @@
 export type SideQuestType =
-  | "books"
+  | "hobbies"
   | "anime"
   | "sports"
-  | "music"
-  | "memes"
+  | "shelf"
   | "secret"
 
 export type SideQuestItem = {
@@ -13,39 +12,33 @@ export type SideQuestItem = {
   emoji: string
   type: SideQuestType
   short: string
-  note: string
-  detail: string
-  position: string
-  rotate: string
-  size: "small" | "medium" | "large"
-  accent: "green" | "cream" | "gold" | "pink" | "sky"
+  accent: "green" | "cream" | "gold" | "pink" | "archive"
   isSecret?: boolean
 }
 
 export type AnimePick = {
   title: string
-  mood: string
-  line: string
-  seriousNote: string
+  watched: boolean
   image?: string
 }
 
-export type BookPick = {
+export type HobbyPick = {
   title: string
-  takeaway: string
-  afterReading: string
-  image?: string
-}
-
-export type MusicMood = {
-  title: string
-  description: string
-  vibe: string
-}
-
-export type MemePick = {
-  title: string
+  category: string
+  status: "active" | "learning" | "planned" | "curious"
+  emoji: string
   line: string
+}
+
+export type ShelfCategory = "Books" | "Sketches" | "Cubes"
+
+export type ShelfPick = {
+  title: string
+  category: ShelfCategory
+  status: string
+  emoji: string
+  line: string
+  image?: string
 }
 
 export type KarateMoment = {
@@ -57,33 +50,21 @@ export type KarateMoment = {
 
 export const sideQuestItems: SideQuestItem[] = [
   {
-    id: "bookshelf",
-    title: "Bookshelf",
-    label: "Books",
-    emoji: "📚",
-    type: "books",
-    short: "Ideas I collect when my brain agrees.",
-    note: "Books that left behind systems, discipline, focus, and some uncomfortable self-reflection.",
-    detail:
-      "This shelf is less about showing that I read and more about showing what stayed with me after reading.",
-    position: "left-[6%] top-[12%]",
-    rotate: "-rotate-6",
-    size: "large",
+    id: "hobby-stack",
+    title: "My Hobbies",
+    label: "Life",
+    emoji: "🧭",
+    type: "hobbies",
+    short: "Small side quests that keep life from becoming one long VS Code tab.",
     accent: "cream",
   },
   {
     id: "anime-wall",
-    title: "Anime Wall",
+    title: "Anime Watchlist",
     label: "Anime",
     emoji: "🍥",
     type: "anime",
-    short: "Long arcs, loud dreams, impossible comebacks.",
-    note: "Naruto, One Piece, Dr. Stone, and whatever else I eventually admit belongs here.",
-    detail:
-      "Anime is where discipline, friendship, obsession, strategy, stupidity, and insane motivation somehow meet.",
-    position: "left-[34%] top-[6%]",
-    rotate: "rotate-3",
-    size: "medium",
+    short: "Watched, watching, and dangerously close to watching.",
     accent: "green",
   },
   {
@@ -92,43 +73,16 @@ export const sideQuestItems: SideQuestItem[] = [
     label: "Karate",
     emoji: "🥋",
     type: "sports",
-    short: "13+ years. 1st Dan black belt.",
-    note: "Discipline before debugging. Repetition before confidence.",
-    detail:
-      "Karate gave me patience, consistency, and the ability to keep showing up even when progress feels invisible.",
-    position: "right-[8%] top-[16%]",
-    rotate: "rotate-6",
-    size: "large",
+    short: "13+ years. 1st Dan black belt. Repetition before confidence.",
     accent: "gold",
   },
   {
-    id: "headphones",
-    title: "Headphones",
-    label: "Music",
-    emoji: "🎧",
-    type: "music",
-    short: "Every bug needs background music.",
-    note: "Gym playlist, late-night coding songs, and main-character walk music.",
-    detail:
-      "Music is basically environment configuration for my brain. Different playlist for debugging, walking, gym, and pretending the deadline is under control.",
-    position: "left-[14%] top-[48%]",
-    rotate: "rotate-4",
-    size: "medium",
-    accent: "sky",
-  },
-  {
-    id: "meme-note",
-    title: "Meme Drawer",
-    label: "Memes",
-    emoji: "💀",
-    type: "memes",
-    short: "The bug was one missing import.",
-    note: "Debugging memes, grad school memes, anime reaction memes, and controlled brain rot.",
-    detail:
-      "Some memes are just documentation for emotional states. Especially when the code worked yesterday and now refuses to acknowledge reality.",
-    position: "left-[42%] top-[42%]",
-    rotate: "-rotate-3",
-    size: "small",
+    id: "shelf-stream",
+    title: "Shelf Stream",
+    label: "Archive",
+    emoji: "🗂️",
+    type: "shelf",
+    short: "Books, sketches, cubes, and tiny proof of offline side quests.",
     accent: "pink",
   },
   {
@@ -138,102 +92,247 @@ export const sideQuestItems: SideQuestItem[] = [
     emoji: "📼",
     type: "secret",
     short: "Old internet artifact. Probably safe. Probably.",
-    note: "A suspiciously normal archive from the after-hours room.",
-    detail:
-      "This looks like a harmless old archive. Nothing to install. Nothing dangerous. Just one tiny internet tradition hiding in plain sight.",
-    position: "right-[12%] bottom-[10%]",
-    rotate: "rotate-6",
-    size: "small",
-    accent: "gold",
+    accent: "archive",
     isSecret: true,
+  },
+]
+
+export const hobbyPicks: HobbyPick[] = [
+  {
+    title: "Martial Arts",
+    category: "Active",
+    status: "active",
+    emoji: "🥋",
+    line: "The long-running side quest. Discipline, repetition, and black belt memories.",
+  },
+  {
+    title: "Badminton",
+    category: "Active",
+    status: "active",
+    emoji: "🏸",
+    line: "Casual enough to start. Competitive enough to get suspiciously serious.",
+  },
+  {
+    title: "Tennis",
+    category: "Active",
+    status: "active",
+    emoji: "🎾",
+    line: "Still learning the rhythm, but the game is fun enough to keep coming back.",
+  },
+  {
+    title: "Astronomy",
+    category: "Learning",
+    status: "learning",
+    emoji: "🔭",
+    line: "Stars, planets, space, and the casual reminder that everything is huge.",
+  },
+  {
+    title: "White Nights",
+    category: "Reading",
+    status: "active",
+    emoji: "📖",
+    line: "I do not claim to be a reader. I survived Dostoevsky once and got curious.",
+  },
+  {
+    title: "Kafka + Crime and Punishment",
+    category: "Reading",
+    status: "planned",
+    emoji: "📚",
+    line: "The next existential boss fight. Entering carefully.",
+  },
+  {
+    title: "Hiking",
+    category: "Outside",
+    status: "planned",
+    emoji: "🥾",
+    line: "Touching grass, but with elevation and better views.",
+  },
+  {
+    title: "Roller Skating",
+    category: "Curious",
+    status: "curious",
+    emoji: "🛼",
+    line: "Not part of the regular life yet. High chance of falling. Still sounds fun.",
   },
 ]
 
 export const animePicks: AnimePick[] = [
   {
     title: "Naruto",
-    mood: "never give up arc",
-    line: "The blueprint for loud dreams and stubborn progress.",
-    seriousNote:
-      "What stuck with me is carrying ambition even when people do not understand it yet.",
+    watched: true,
     image: "/side-quests/anime/naruto.jpg",
   },
   {
     title: "One Piece",
-    mood: "adventure mode",
-    line: "Friendship, freedom, chaos, and somehow 1000+ episodes make sense.",
-    seriousNote:
-      "The long-term world-building reminds me that big goals need patience.",
+    watched: true,
     image: "/side-quests/anime/one-piece.jpg",
   },
   {
     title: "Dr. Stone",
-    mood: "science brain activated",
-    line: "Science as a shonen power system. Insane concept. Perfect execution.",
-    seriousNote:
-      "It makes problem-solving feel exciting: observe, test, build, fail, repeat.",
+    watched: true,
     image: "/side-quests/anime/dr-stone.jpg",
   },
+  {
+    title: "Death Note",
+    watched: true,
+    image: "/side-quests/anime/death-note.jpg",
+  },
+  {
+    title: "Demon Slayer",
+    watched: true,
+    image: "/side-quests/anime/demon-slayer.jpg",
+  },
+  {
+    title: "Jujutsu Kaisen",
+    watched: true,
+    image: "/side-quests/anime/jujutsu-kaisen.jpg",
+  },
+  {
+    title: "Fullmetal Alchemist",
+    watched: true,
+    image: "/side-quests/anime/fullmetal-alchemist.jpg",
+  },
+  {
+    title: "Hunter x Hunter",
+    watched: true,
+    image: "/side-quests/anime/hunter-x-hunter.jpg",
+  },
+  {
+    title: "Mob Psycho 100",
+    watched: true,
+    image: "/side-quests/anime/mob-psycho-100.jfif",
+  },
+  {
+    title: "One Punch Man",
+    watched: true,
+    image: "/side-quests/anime/one-punch-man.jpg",
+  },
+  {
+    title: "Haikyuu",
+    watched: true,
+    image: "/side-quests/anime/haikyuu.jfif",
+  },
+  {
+    title: "Blue Lock",
+    watched: true,
+    image: "/side-quests/anime/blue-lock.jfif",
+  },
+  {
+    title: "Code Geass",
+    watched: true,
+    image: "/side-quests/anime/code-geass.jfif",
+  },
+  {
+    title: "Bungo Stray Dogs",
+    watched: true,
+    image: "/side-quests/anime/bungo-stray-dogs.jfif",
+  },
+  {
+    title: "Classroom of the Elite",
+    watched: true,
+    image: "/side-quests/anime/classroom-of-the-elite.jfif",
+  },
+  {
+    title: "Solo Leveling",
+    watched: true,
+    image: "/side-quests/anime/solo-leveling.jfif",
+  },
+  {
+    title: "Kaiju No. 8",
+    watched: true,
+    image: "/side-quests/anime/kaiju-no-8.jfif",
+  },
+  {
+    title: "Your Name",
+    watched: true,
+    image: "/side-quests/anime/your-name.jpg",
+  },
+  {
+    title: "Weathering With You",
+    watched: true,
+    image: "/side-quests/anime/weathering-with-you.jfif",
+  },
+  {
+    title: "Spirited Away",
+    watched: true,
+    image: "/side-quests/anime/spirited-away.jfif",
+  },
+  {
+    title: "Monster",
+    watched: false,
+    image: "/side-quests/anime/monster.jfif",
+  },
+  {
+    title: "Vinland Saga",
+    watched: false,
+    image: "/side-quests/anime/vinland-saga.jpg",
+  },
+  {
+    title: "Frieren",
+    watched: false,
+    image: "/side-quests/anime/frieren.jpg",
+  },
+  {
+    title: "Steins;Gate",
+    watched: false,
+    image: "/side-quests/anime/steins-gate.jfif",
+  },
 ]
 
-export const bookPicks: BookPick[] = [
+export const shelfPicks: ShelfPick[] = [
   {
-    title: "Atomic Habits",
-    takeaway: "Systems beat motivation.",
-    afterReading:
-      "Made me think more about small repeatable actions instead of dramatic productivity resets.",
-    image: "/side-quests/books/atomic-habits.jpg",
+    title: "White Nights",
+    category: "Books",
+    status: "Read",
+    emoji: "📖",
+    line: "Read this and briefly became more dramatic than necessary.",
+    image: "/side-quests/shelf/white-nights.jfif",
   },
   {
-    title: "Deep Work",
-    takeaway: "Focus is a skill, not a mood.",
-    afterReading:
-      "Also made me realize how many times I pretend opening another tab counts as research.",
-    image: "/side-quests/books/deep-work.jpg",
+    title: "A Brief History of Time",
+    category: "Books",
+    status: "Read",
+    emoji: "🌌",
+    line: "Stephen Hawking made space feel huge, confusing, and weirdly beautiful.",
+    image: "/side-quests/shelf/brief-history-of-time.jfif",
   },
   {
-    title: "Add next book",
-    takeaway: "Leave this slot for your real favorite.",
-    afterReading:
-      "Replace this with a book you actually want people to know shaped how you think.",
-    image: "/side-quests/books/add-book.jpg",
-  },
-]
-
-export const musicMoods: MusicMood[] = [
-  {
-    title: "Debugging Mode",
-    description: "Low chaos, high focus, no lyrics if the bug is personal.",
-    vibe: "focus",
+    title: "Crime and Punishment",
+    category: "Books",
+    status: "Current read",
+    emoji: "📚",
+    line: "Currently entering Dostoevsky boss-fight mode. Slowly. Carefully.",
+    image: "/side-quests/shelf/crime-and-punishment.jfif",
   },
   {
-    title: "Gym Mode",
-    description: "Songs that make the last set feel like a villain fight.",
-    vibe: "energy",
+    title: "Faceless Abstract",
+    category: "Sketches",
+    status: "Sketch",
+    emoji: "✏️",
+    line: "An abstract face study with faceless-art energy.",
+    image: "/side-quests/shelf/sketch-01.jpg",
   },
   {
-    title: "Main Character Walk",
-    description: "For walking to class like the semester has cinematography.",
-    vibe: "cinematic",
-  },
-]
-
-export const memePicks: MemePick[] = [
-  {
-    title: "Code worked yesterday",
-    line: "The most dangerous sentence in software engineering.",
+    title: "Naruto Sketch",
+    category: "Sketches",
+    status: "Sketch",
+    emoji: "🍥",
+    line: "A Naruto sketch, because some side quests are obviously anime-coded.",
+    image: "/side-quests/shelf/sketch-02.jpeg",
   },
   {
-    title: "Grad school brain",
-    line: "Laughing because crying would require scheduling.",
+    title: "Rubik’s Cube",
+    category: "Cubes",
+    status: "Can solve",
+    emoji: "🧩",
+    line: "Classic cube. Pattern recognition, finger tricks, and tiny algorithmic satisfaction.",
   },
   {
-    title: "Anime reaction folder",
-    line: "Useful for 70% of daily communication.",
-  },
-  {
-    title: "One missing import",
-    line: "Forty minutes of debugging. One line of shame.",
+    title: "Master Pyramorphix Cube",
+    category: "Cubes",
+    status: "Can solve",
+    emoji: "⬛",
+    line: "Same logic, more chaos. Shapes shift, confidence disappears, still gets solved.",
   },
 ]
 
@@ -241,30 +340,59 @@ export const karateMoments: KarateMoment[] = [
   {
     title: "The beginning",
     description:
-      "Started as training. Slowly became discipline, routine, confidence, and identity.",
-    mediaLabel: "Photo slot",
-    mediaHint: "/side-quests/karate/early-training.jpg",
+      "Started martial arts as training, but over time it became discipline, routine, confidence, and a major part of how I learned consistency.",
+    mediaLabel: "01",
+    mediaHint: "Start",
+  },
+  {
+    title: "13-year journey",
+    description:
+      "Years of practice taught me that progress is mostly repetition, patience, and showing up even when improvement is not immediately visible.",
+    mediaLabel: "02",
+    mediaHint: "Growth",
   },
   {
     title: "Black belt era",
     description:
-      "The point where repetition stopped feeling boring and started feeling like proof.",
-    mediaLabel: "Video slot",
-    mediaHint: "/side-quests/karate/black-belt-demo.mp4",
+      "Earning my 1st Dan black belt made repetition feel less like boring practice and more like proof of long-term commitment.",
+    mediaLabel: "03",
+    mediaHint: "1st Dan",
   },
   {
-    title: "Coaching",
+    title: "Mentoring students",
     description:
-      "Teaching made me better at explaining, leading, observing, and staying patient.",
-    mediaLabel: "Photo slot",
-    mediaHint: "/side-quests/karate/coaching.jpg",
+      "Led and mentored over 1,000 students in martial arts over a four-year period, focusing on skill development, discipline, confidence, and personal growth.",
+    mediaLabel: "04",
+    mediaHint: "Mentor",
+  },
+  {
+    title: "Instructor coordination",
+    description:
+      "Oversaw operations across a team of 25 instructors, coordinated training schedules, maintained teaching standards, and helped keep program quality consistent across batches.",
+    mediaLabel: "05",
+    mediaHint: "Team",
+  },
+  {
+    title: "Events and outreach",
+    description:
+      "Contributed to organizing large-scale events, community programs, and outreach initiatives that connected training with leadership and community impact.",
+    mediaLabel: "06",
+    mediaHint: "Events",
+  },
+  {
+    title: "What stayed with me",
+    description:
+      "This role strengthened my leadership, communication, organization, accountability, and team coordination in high-responsibility environments.",
+    mediaLabel: "07",
+    mediaHint: "Mindset",
   },
 ]
 
 export const starterRecommendations = [
-  "Watch Monster",
-  "Try bouldering once",
-  "Read Project Hail Mary",
-  "Make a gym playlist called final boss",
-  "Watch one comfort anime episode and call it recovery",
+  "Dare me a sketch",
+  "Suggest a book",
+  "Recommend an anime banger",
+  "Give me a cube challenge",
+  "Drop a hiking trail",
+  "Suggest a weird hobby",
 ]

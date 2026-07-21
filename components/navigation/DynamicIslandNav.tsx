@@ -21,31 +21,40 @@ export function DynamicIslandNav() {
   const shouldShowFullNav = isHome || isOpen
 
   useEffect(() => {
-    const sections = links
-      .map((link) => document.getElementById(link.id))
-      .filter(Boolean) as HTMLElement[]
+    function updateActiveSection() {
+      const viewportCheckPoint = window.innerHeight * 0.35
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleEntry = entries.find((entry) => entry.isIntersecting)
+      let currentSection = "home"
 
-        if (visibleEntry?.target.id) {
-          setActiveSection(visibleEntry.target.id)
+      for (const link of links) {
+        const section = document.getElementById(link.id)
 
-          if (visibleEntry.target.id === "home") {
-            setIsOpen(false)
-          }
+        if (!section) continue
+
+        const rect = section.getBoundingClientRect()
+
+        if (rect.top <= viewportCheckPoint && rect.bottom >= viewportCheckPoint) {
+          currentSection = link.id
+          break
         }
-      },
-      {
-        root: null,
-        threshold: 0.35,
-      },
-    )
+      }
 
-    sections.forEach((section) => observer.observe(section))
+      setActiveSection(currentSection)
 
-    return () => observer.disconnect()
+      if (currentSection === "home") {
+        setIsOpen(false)
+      }
+    }
+
+    updateActiveSection()
+
+    window.addEventListener("scroll", updateActiveSection, { passive: true })
+    window.addEventListener("resize", updateActiveSection)
+
+    return () => {
+      window.removeEventListener("scroll", updateActiveSection)
+      window.removeEventListener("resize", updateActiveSection)
+    }
   }, [])
 
   function handleNavigate() {
