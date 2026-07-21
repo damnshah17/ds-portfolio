@@ -4,7 +4,7 @@ export type WorkProject = {
   subtitle: string
   category: string
   year: string
-  status: "Shipped" | "In Progress" | "Research" | "Archived"
+  status: "Shipped" | "In Progress" | "Archived"
   description: string
   stack: string[]
   tags: string[]
@@ -12,7 +12,7 @@ export type WorkProject = {
   problem: string
   whatIDid: string[]
   outcome: string
-  visual: "waveform" | "workflow" | "summary" | "chart" | "experiment" | "backend"
+  visual: "waveform" | "workflow" | "summary" | "chart" | "backend"
   accent: "lime" | "gold" | "sky" | "pink" | "cream"
   githubUrl?: string
   liveUrl?: string
@@ -20,13 +20,10 @@ export type WorkProject = {
 
 export const projectFilters = [
   "All",
-  "AI / ML",
   "Full-Stack",
+  "AI / ML",
   "Backend",
   "Frontend",
-  "Research",
-  "Accessibility",
-  "Experiment",
 ] as const
 
 export type ProjectFilter = (typeof projectFilters)[number]
@@ -43,17 +40,17 @@ export const workProjects: WorkProject[] = [
       "A university platform connecting students, sponsors, and admins through short-term technical project opportunities.",
     stack: ["Next.js", "React", "TypeScript", "PostgreSQL", "REST APIs", "Zod"],
     tags: ["Full-Stack", "Product", "Next.js", "PostgreSQL"],
-    metrics: ["Multi-role system", "UAT fixes", "Onboarding tours"],
+    metrics: ["Multi-role system", "UAT fixes", "Sponsor/admin workflows"],
     problem:
-      "The platform needed clear workflows across students, sponsors, and admins. Small gaps in validation or visibility could create real confusion.",
+      "The platform needed clear workflows across students, sponsors, and admins. Small gaps in validation, visibility, or role-specific screens could create real confusion for users.",
     whatIDid: [
-      "Improved student application views for submitted answers and resumes.",
+      "Improved student application views for submitted answers and resume access.",
       "Added clearer approval validation and user-facing feedback.",
       "Refined sponsor project workflows and department-level visibility.",
-      "Built onboarding tours for profile and dashboard interactions.",
+      "Worked on role-based dashboard behavior across student, sponsor, and admin flows.",
     ],
     outcome:
-      "Made real platform workflows clearer, more reliable, and easier to use.",
+      "Made real platform workflows clearer, more reliable, and easier to use for a university-facing product.",
     visual: "workflow",
     accent: "gold",
   },
@@ -74,7 +71,7 @@ export const workProjects: WorkProject[] = [
       "PyAudio",
       "MFCC",
     ],
-    tags: ["AI / ML", "Research", "Accessibility", "Audio"],
+    tags: ["AI / ML", "Research", "Audio"],
     metrics: ["91.7% accuracy", "F1 0.945", "7 speakers"],
     problem:
       "Most transcription tools tell you what was said, but not who said it. I wanted to combine both into one real-time workflow.",
@@ -125,8 +122,8 @@ export const workProjects: WorkProject[] = [
     description:
       "A browser extension concept for turning long video transcripts into useful summaries.",
     stack: ["React", "Tailwind CSS", "Flask", "Python", "Manifest V3"],
-    tags: ["Full-Stack", "Frontend", "NLP", "Browser Tool"],
-    metrics: ["Transcript → summary", "Browser extension", "Team project"],
+    tags: ["Full-Stack", "Frontend", "Python", "Browser Tool"],
+    metrics: ["Transcript to summary", "Browser extension", "Team project"],
     problem:
       "Long videos can contain useful information, but finding the important parts takes time.",
     whatIDid: [
@@ -149,14 +146,14 @@ export const workProjects: WorkProject[] = [
     status: "Archived",
     description:
       "A machine-learning model for estimating university admission probability.",
-    stack: ["Python", "Pandas", "Scikit-Learn", "Seaborn", "Regression"],
+    stack: ["Python", "Pandas", "Scikit-Learn", "Regression"],
     tags: ["AI / ML", "Data", "Regression"],
     metrics: ["Data cleaning", "Visualization", "Prediction model"],
     problem:
       "Admission chances depend on multiple features, and I wanted to model those relationships through data.",
     whatIDid: [
       "Cleaned and explored the admission dataset.",
-      "Visualized feature relationships using Seaborn.",
+      "Visualized feature relationships.",
       "Built a multiple linear regression model.",
       "Interpreted how different inputs affected prediction outcomes.",
     ],
@@ -166,36 +163,6 @@ export const workProjects: WorkProject[] = [
     accent: "pink",
   },
   {
-    id: "asl-avatar",
-    title: "ASL Avatar",
-    subtitle: "Experiment",
-    category: "Accessibility",
-    year: "2026",
-    status: "Research",
-    description:
-      "An experimental idea for a desktop character that interprets video/audio into ASL.",
-    stack: [
-      "VRM",
-      "Computer Vision",
-      "Speech Recognition",
-      "Animation",
-      "Accessibility",
-    ],
-    tags: ["Accessibility", "Experiment", "AI / ML", "Research"],
-    metrics: ["In research", "Ambitious", "Human-centered"],
-    problem:
-      "Video content is still not equally accessible. I am interested in whether an expressive avatar could make interpretation more available.",
-    whatIDid: [
-      "Explored VRM/avatar-based interaction ideas.",
-      "Mapped the technical pieces needed: speech recognition, ASL generation, animation, and desktop overlay.",
-      "Studied feasibility and project phases before jumping into implementation.",
-    ],
-    outcome:
-      "Still an experiment, but it reflects the kind of accessibility-focused systems I want to build.",
-    visual: "experiment",
-    accent: "cream",
-  },
-    {
     id: "qr-chatbot",
     title: "QR Chatbot",
     subtitle: "Generator",
@@ -223,13 +190,13 @@ export const workProjects: WorkProject[] = [
     id: "sports-platform",
     title: "Sports Community",
     subtitle: "Platform",
-    category: "Full-Stack",
+    category: "Frontend",
     year: "2023",
     status: "Archived",
     description:
       "A sports community website concept connecting athletes, coaches, and learners through resources and structured information.",
     stack: ["HTML", "CSS", "JavaScript", "UI Design"],
-    tags: ["Full-Stack", "Frontend", "Community"],
+    tags: ["Frontend", "Community", "UI"],
     metrics: ["Sports resources", "Coach discovery", "Frontend build"],
     problem:
       "Many sports learners struggle to find structured beginner-friendly resources and guidance in one place.",
@@ -247,13 +214,13 @@ export const workProjects: WorkProject[] = [
     id: "portfolio-site",
     title: "Personal Portfolio",
     subtitle: "Project Portal",
-    category: "Full-Stack",
+    category: "Frontend",
     year: "2026",
     status: "In Progress",
     description:
       "A personal portfolio designed as a living project archive with dynamic navigation, timelines, side quests, and a rotating project portal.",
     stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Motion"],
-    tags: ["Full-Stack", "Frontend", "Design"],
+    tags: ["Frontend", "Full-Stack", "Design"],
     metrics: ["Dynamic nav", "Project portal", "Interactive sections"],
     problem:
       "A normal portfolio can feel flat, so I wanted to build one that shows personality while still being useful for recruiters.",
@@ -264,79 +231,7 @@ export const workProjects: WorkProject[] = [
     ],
     outcome:
       "Created a portfolio system that can grow as more GitHub projects are added.",
-    visual: "experiment",
-    accent: "lime",
-  },
-  {
-    id: "leetcode-tracker",
-    title: "DSA Practice",
-    subtitle: "Tracker",
-    category: "Frontend",
-    year: "2026",
-    status: "Research",
-    description:
-      "A concept for tracking LeetCode and interview preparation progress with patterns, difficulty, notes, and revision status.",
-    stack: ["React", "TypeScript", "Local Storage", "Tailwind CSS"],
-    tags: ["Frontend", "Tooling", "Software"],
-    metrics: ["Pattern tracking", "Revision flow", "Interview prep"],
-    problem:
-      "Interview preparation becomes messy when problems, patterns, mistakes, and revision notes are not organized.",
-    whatIDid: [
-      "Planned a structure for tracking questions by pattern.",
-      "Designed status labels for solved, revising, and needs-review problems.",
-      "Explored a clean dashboard for progress visibility.",
-    ],
-    outcome:
-      "A future productivity tool idea for making DSA prep more organized.",
-    visual: "chart",
-    accent: "pink",
-  },
-  {
-    id: "rag-domain-chatbot",
-    title: "Domain RAG",
-    subtitle: "Chatbot",
-    category: "AI / ML",
-    year: "2026",
-    status: "Research",
-    description:
-      "A research direction for building a retrieval-augmented chatbot that can answer questions from domain-specific documents.",
-    stack: ["Python", "LangChain", "Vector DB", "Embeddings", "LLMs"],
-    tags: ["AI / ML", "Research", "Backend"],
-    metrics: ["Document search", "Embeddings", "Grounded answers"],
-    problem:
-      "General chatbots often answer without domain grounding, so a RAG system can improve usefulness by retrieving from specific documents.",
-    whatIDid: [
-      "Mapped the architecture for ingestion, chunking, embeddings, retrieval, and answer generation.",
-      "Studied how domain-specific context improves chatbot reliability.",
-      "Planned document-based retrieval flows for future implementation.",
-    ],
-    outcome:
-      "A strong future AI engineering project direction for resume and portfolio growth.",
-    visual: "backend",
-    accent: "cream",
-  },
-  {
-    id: "desktop-asl-agent",
-    title: "Desktop ASL",
-    subtitle: "Assistant",
-    category: "Accessibility",
-    year: "2026",
-    status: "Research",
-    description:
-      "An accessibility experiment exploring how a desktop avatar could interpret audio or video content into sign-language-style motion.",
-    stack: ["VRM", "Speech Recognition", "Animation", "Computer Vision"],
-    tags: ["Accessibility", "Experiment", "AI / ML"],
-    metrics: ["Avatar pipeline", "Speech input", "Motion mapping"],
-    problem:
-      "Video and audio content can still be inaccessible, and a visual assistant could make interpretation more available.",
-    whatIDid: [
-      "Explored VRM avatar feasibility.",
-      "Mapped required components including ASR, gesture generation, and animation playback.",
-      "Studied the difference between prototype feasibility and real ASL interpretation accuracy.",
-    ],
-    outcome:
-      "A long-term accessibility experiment with strong AI and human-centered design potential.",
-    visual: "experiment",
+    visual: "workflow",
     accent: "lime",
   },
 ]

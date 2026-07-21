@@ -1,7 +1,6 @@
 "use client"
 
 import { motion } from "motion/react"
-import { ArrowUpRight } from "lucide-react"
 
 import type { WorkProject } from "@/components/data/work"
 
@@ -34,20 +33,23 @@ export function PortalProjectCard({
   onOpen,
 }: PortalProjectCardProps) {
   return (
-    <motion.article
+    <motion.button
+      type="button"
       layout
-      initial={{ opacity: 0, y: 18, scale: 0.96 }}
+      initial={{ opacity: 0, y: 18, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -18, scale: 0.96 }}
+      exit={{ opacity: 0, y: -18, scale: 0.97 }}
       transition={{
-        duration: 0.26,
+        duration: 0.28,
         ease: "easeOut",
-        delay: index * 0.045,
+        delay: index * 0.04,
       }}
-      whileHover={{ y: -6 }}
-      className={`group relative min-h-[270px] overflow-hidden rounded-[1.75rem] border border-[#f7f3e8]/12 bg-[#0b2f23] p-5 shadow-[0_20px_55px_rgba(6,43,32,0.16)] ${slotClasses[index]}`}
+      whileHover={{ y: -8, scale: 1.02 }}
+      onClick={() => onOpen(project)}
+      className={`group relative min-h-[280px] overflow-hidden rounded-[1.75rem] border border-[#f7f3e8]/12 bg-[#0b2f23] p-5 text-left shadow-[0_20px_55px_rgba(6,43,32,0.16)] transition hover:border-[#d5e8b4]/45 ${slotClasses[index]}`}
     >
       <div className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-[#d5e8b4]/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-20 -left-16 h-36 w-36 rounded-full bg-[#f7f3e8]/5 blur-3xl" />
 
       <div className="relative flex items-start justify-between gap-4">
         <div className="flex flex-wrap gap-2">
@@ -62,14 +64,9 @@ export function PortalProjectCard({
           </span>
         </div>
 
-        <button
-          type="button"
-          onClick={() => onOpen(project)}
-          aria-label={`Open ${project.title}`}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 text-[#f7f3e8] transition group-hover:bg-[#d5e8b4] group-hover:text-[#0b2f23]"
-        >
-          <ArrowUpRight size={18} />
-        </button>
+        <span className="rounded-full border border-white/15 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#b9c8ba] transition group-hover:border-[#d5e8b4]/50 group-hover:text-[#d5e8b4]">
+          Open
+        </span>
       </div>
 
       <div className="relative mt-8">
@@ -97,6 +94,6 @@ export function PortalProjectCard({
           ))}
         </div>
       </div>
-    </motion.article>
+    </motion.button>
   )
 }

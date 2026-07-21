@@ -5,7 +5,6 @@ import { WorkSection } from "@/components/work/WorkSection"
 import { SideQuestsSection } from "@/components/side-quests/SideQuestsSection"
 import { GuestbookSection } from "@/components/guestbook/GuestbookSection"
 import { ContactSection } from "@/components/contact/ContactSection"
-import { SectionMoodWidget } from "@/components/navigation/SectionMoodWidget"
 
 export default function Home() {
   return (

@@ -28,7 +28,7 @@ function ProjectVisual({ type }: { type: WorkProject["visual"] }) {
           <motion.span
             key={index}
             animate={{ height: [`${height}%`, `${bars[(index + 4) % bars.length]}%`, `${height}%`] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut", delay: index * 0.04 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1], delay: index * 0.025,}}
             className="w-full rounded-full bg-[#d5e8b4]"
           />
         ))}
