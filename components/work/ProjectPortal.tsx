@@ -1,155 +1,47 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
-import { AnimatePresence, motion } from "motion/react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-
-import {
-  type ProjectFilter,
-  type WorkProject,
-  workProjects,
-} from "@/components/data/work"
+import { type ProjectFilter, type WorkProject, workProjects } from "@/components/data/work"
 import { PortalProjectCard } from "@/components/work/PortalProjectCard"
+import { ArrowUpRight } from "lucide-react"
 
 type ProjectPortalProps = {
   activeFilter: ProjectFilter
   onOpen: (project: WorkProject) => void
 }
 
-const PAGE_SIZE = 6
-const AUTO_ROTATE_MS = 4500
-
-function getFilteredProjects(activeFilter: ProjectFilter) {
-  if (activeFilter === "All") {
-    return workProjects
-  }
-
-  return workProjects.filter((project) => {
-    return project.category === activeFilter || project.tags.includes(activeFilter)
-  })
-}
-
 export function ProjectPortal({ activeFilter, onOpen }: ProjectPortalProps) {
-  const portalRef = useRef<HTMLDivElement | null>(null)
-
-  const [page, setPage] = useState(0)
-  const [isPaused, setIsPaused] = useState(false)
-  const [isPortalVisible, setIsPortalVisible] = useState(false)
-
-  const filteredProjects = useMemo(
-    () => getFilteredProjects(activeFilter),
-    [activeFilter],
-  )
-
-  const totalPages = Math.max(1, Math.ceil(filteredProjects.length / PAGE_SIZE))
-
-  const visibleProjects = useMemo(() => {
-    const safePage = Math.min(page, totalPages - 1)
-    const start = safePage * PAGE_SIZE
-
-    return filteredProjects.slice(start, start + PAGE_SIZE)
-  }, [filteredProjects, page, totalPages])
-
-  useEffect(() => {
-    const node = portalRef.current
-
-    if (!node) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsPortalVisible(entry.isIntersecting)
-      },
-      {
-        threshold: 0.25,
-      },
-    )
-
-    observer.observe(node)
-
-    return () => observer.disconnect()
-  }, [])
-
-  useEffect(() => {
-    setPage(0)
-  }, [activeFilter])
-
-  useEffect(() => {
-    if (!isPortalVisible || isPaused || filteredProjects.length <= PAGE_SIZE) {
-      return
-    }
-
-    const timer = window.setInterval(() => {
-      setPage((current) => (current + 1) % totalPages)
-    }, AUTO_ROTATE_MS)
-
-    return () => window.clearInterval(timer)
-  }, [filteredProjects.length, isPaused, isPortalVisible, totalPages])
-
-  function goNext() {
-    setPage((current) => (current + 1) % totalPages)
-  }
-
-  function goPrevious() {
-    setPage((current) => (current - 1 + totalPages) % totalPages)
-  }
-
-  function handleOpen(project: WorkProject) {
-    setIsPaused(true)
-    onOpen(project)
-  }
-
-  const canNavigate = totalPages > 1
+  const matches = (project: WorkProject) => activeFilter === "All" ||
+    project.category === activeFilter || project.tags.includes(activeFilter)
+  const featured = workProjects.filter((p) => (p.collection === "featured" || p.collection === "systems") && matches(p))
+  const archive = workProjects.filter((p) => p.collection === "archive" && matches(p))
 
   return (
-    <div
-      ref={portalRef}
-      className="mt-10"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
-      <div className="relative overflow-hidden rounded-[2.25rem] border border-[#0b2f23]/10 bg-[#e8ecdd] p-4 shadow-[0_25px_70px_rgba(6,43,32,0.1)] sm:p-6">
-        <div className="mb-5 flex justify-end gap-2">
-          <button
-            type="button"
-            onClick={goPrevious}
-            disabled={!canNavigate}
-            aria-label="Previous project set"
-            className="grid h-11 w-11 place-items-center rounded-full border border-[#0b2f23]/10 bg-[#f7f3e8] text-[#0b2f23] transition hover:bg-[#0b2f23] hover:text-[#f7f3e8] disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            <ChevronLeft size={19} />
-          </button>
-
-          <button
-            type="button"
-            onClick={goNext}
-            disabled={!canNavigate}
-            aria-label="Next project set"
-            className="grid h-11 w-11 place-items-center rounded-full border border-[#0b2f23]/10 bg-[#f7f3e8] text-[#0b2f23] transition hover:bg-[#0b2f23] hover:text-[#f7f3e8] disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            <ChevronRight size={19} />
-          </button>
-        </div>
-
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={`${activeFilter}-${page}`}
-            initial={{ opacity: 0, scale: 0.985 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.985 }}
-            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2"
-          >
-            {visibleProjects.map((project, index) => (
-              <PortalProjectCard
-                key={project.id}
-                project={project}
-                index={index}
-                onOpen={handleOpen}
-              />
+    <div className="mt-10 space-y-12">
+      <p className="sr-only" role="status">{featured.length + archive.length} projects match {activeFilter}.</p>
+      {featured.length > 0 && (
+        <section aria-labelledby="featured-heading">
+          <h3 id="featured-heading" className="mb-5 text-xl font-semibold">Featured Work</h3>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {featured.map((project, index) => <PortalProjectCard key={project.id} project={project} index={index} onOpen={onOpen} />)}
+          </div>
+        </section>
+      )}
+      {archive.length > 0 && (
+        <details className="rounded-3xl border border-[#0b2f23]/20 bg-[#e8ecdd] p-5 sm:p-7">
+          <summary className="cursor-pointer text-xl font-semibold">More projects & archive <span className="text-sm font-normal">({archive.length})</span></summary>
+          <p className="my-5 text-[#4c6d5d]">Earlier experiments, learning projects, and training. Each entry keeps its original scope visible.</p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {archive.map((project) => (
+              <button type="button" key={project.id} onClick={() => onOpen(project)} aria-haspopup="dialog" className="rounded-2xl border border-[#0b2f23]/15 bg-[#f7f3e8] p-5 text-left transition hover:border-[#3b7358]">
+                <span className="text-xs uppercase tracking-wider text-[#3b7358]">{project.status}</span>
+                <h4 className="mt-2 text-lg font-semibold">{project.title} — {project.subtitle}</h4>
+                <p className="mt-2 text-sm leading-6 text-[#4c6d5d]">{project.description}</p>
+                <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold">View details <ArrowUpRight size={16} aria-hidden="true" /></span>
+              </button>
             ))}
-          </motion.div>
-        </AnimatePresence>
-      </div>
+          </div>
+        </details>
+      )}
     </div>
   )
 }

@@ -1,5 +1,7 @@
 "use client"
 
+import { profile } from "@/components/data/profile"
+
 import { Download, Mail } from "lucide-react"
 import { motion } from "motion/react"
 import { FaGithub, FaLinkedin } from "react-icons/fa"
@@ -8,27 +10,27 @@ import { ContactLink } from "@/components/contact/ContactLink"
 
 const contactLinks = {
   email: {
-    href: "mailto:dshah13@binghamton.edu",
+    href: `mailto:${profile.email}`,
     label: "Email",
-    description: "dshah13@binghamton.edu",
+    description: profile.email,
     icon: <Mail size={20} />,
   },
   resume: {
-    href: "/resume/Daaman-Shah-Resume.pdf",
+    href: profile.resumeUrl,
     label: "Resume",
-    description: "Download the latest PDF version of my resume.",
+    description: "View the latest PDF, or download it below.",
     icon: <Download size={20} />,
     external: true,
   },
   github: {
-    href: "https://github.com/YOUR-GITHUB",
+    href: profile.github,
     label: "GitHub",
     description: "Projects, experiments, and code I am building in public.",
     icon: <FaGithub size={20} />,
     external: true,
   },
   linkedin: {
-    href: "https://www.linkedin.com/in/YOUR-LINKEDIN/",
+    href: profile.linkedin,
     label: "LinkedIn",
     description: "For roles, internships, referrals, and professional updates.",
     icon: <FaLinkedin size={20} />,
@@ -39,7 +41,7 @@ const contactLinks = {
 const quickInfo = [
   {
     label: "Email",
-    value: "dshah13@binghamton.edu",
+    value: profile.email,
   },
   {
     label: "Based at",
@@ -47,7 +49,7 @@ const quickInfo = [
   },
   {
     label: "Degree focus",
-    value: "M.S. Computer Science · AI specialization",
+    value: "M.S. Computer Science · Artificial Intelligence Track",
   },
   {
     label: "Looking for",
@@ -201,12 +203,12 @@ export function ContactSection() {
                 </p>
 
                 <h3 className="mt-4 font-serif text-4xl leading-none tracking-[-0.05em]">
-                  Daaman Shah
+                  {profile.name}
                 </h3>
 
                 <p className="mt-4 max-w-md text-sm leading-7 text-[#b9c8ba]">
                   MS Computer Science student at Binghamton University with an
-                  AI specialization, building across full-stack software, AI
+                  Artificial Intelligence Track, building across full-stack software, AI
                   applications, and backend systems.
                 </p>
               </div>
@@ -275,10 +277,11 @@ export function ContactSection() {
         </div>
 
         <div className="mt-12 flex flex-col gap-3 border-t border-[#d5e8b4]/15 pt-6 text-sm text-[#8aa78f] sm:flex-row sm:items-center sm:justify-between">
+          <a href={profile.resumeUrl} download className="font-semibold text-[#d5e8b4] underline underline-offset-4">Download resume PDF</a>
           <p>
             Built with care, curiosity, and a suspicious number of “one last changes.”
           </p>
-          <p>© {new Date().getFullYear()} Daaman Shah</p>
+          <p>© {new Date().getFullYear()} {profile.name}</p>
         </div>
       </div>
     </section>

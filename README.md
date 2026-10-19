@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Daaman Shah — Portfolio
 
-## Getting Started
+A single-page portfolio built with Next.js App Router, React, TypeScript, Tailwind CSS, and Motion.
 
-First, run the development server:
+## Run locally
 
-```bash
+```sh
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open the localhost URL printed by Next.js. For a production preview, run `npm run build` followed by `npm run start`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Checks
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+npm run lint
+npm run build
+```
 
-## Learn More
+The build includes TypeScript checking. Read `AGENTS.md` and the installed Next.js guides in `node_modules/next/dist/docs/` before changing framework code.
 
-To learn more about Next.js, take a look at the following resources:
+## Where to edit
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `app/page.tsx`: section order and homepage composition.
+- `app/layout.tsx`: page and social metadata, global motion preferences.
+- `app/globals.css`: shared styles, focus indicators, and reduced-motion rules.
+- `components/data/profile.ts`: name, email, professional links, role, and resume URL.
+- `components/data/work.ts`: project stories, technologies, metrics, categories, and links.
+- `components/data/journey.ts`: experience, education, and coursework.
+- `components/data/sideQuests.ts`: hobbies, anime, karate, and personal collections.
+- `components/data/comments.ts`: curated guestbook comments.
+- `components/`: active section components and their supporting UI.
+- `components/navigation/SectionLink.tsx`: shared in-page scrolling without URL/history changes on ordinary clicks; native fragment links remain available for direct sharing.
+- `public/side-quests/`: personal collection images.
+- `public/resume/Daaman-Shah-Resume.pdf`: downloadable resume; preserve the path when replacing it.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Content and forms
 
-## Deploy on Vercel
+Projects in the `featured` and `systems` collections share the main grid. Category filters select relevant work; `archive` entries appear in the expandable archive. The intentionally hidden QR utility remains in the data for reference.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Guestbook notes and side-quest suggestions use the existing Formspree endpoint. Displayed guestbook comments are curated separately; submissions do not automatically become public comments. The secret side quest links to the guestbook rather than maintaining a visitor counter.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`PORTFOLIO_UPDATE.md` records content sources and unresolved factual questions. Keep it as an editorial reference when updating project claims.

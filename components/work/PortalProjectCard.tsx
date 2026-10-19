@@ -18,15 +18,6 @@ const accentClasses = {
   cream: "bg-[#f7f3e8] text-[#0b2f23]",
 }
 
-const slotClasses = [
-  "lg:col-start-1 lg:row-start-1",
-  "lg:col-start-2 lg:row-start-1",
-  "lg:col-start-3 lg:row-start-1",
-  "lg:col-start-3 lg:row-start-2",
-  "lg:col-start-2 lg:row-start-2",
-  "lg:col-start-1 lg:row-start-2",
-]
-
 export function PortalProjectCard({
   project,
   index,
@@ -35,6 +26,7 @@ export function PortalProjectCard({
   return (
     <motion.button
       type="button"
+      aria-haspopup="dialog"
       layout
       initial={{ opacity: 0, y: 18, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -46,7 +38,7 @@ export function PortalProjectCard({
       }}
       whileHover={{ y: -8, scale: 1.02 }}
       onClick={() => onOpen(project)}
-      className={`group relative min-h-[280px] overflow-hidden rounded-[1.75rem] border border-[#f7f3e8]/12 bg-[#0b2f23] p-5 text-left shadow-[0_20px_55px_rgba(6,43,32,0.16)] transition hover:border-[#d5e8b4]/45 ${slotClasses[index]}`}
+      className="group relative min-h-[280px] overflow-hidden rounded-[1.75rem] border border-[#f7f3e8]/12 bg-[#0b2f23] p-5 text-left shadow-[0_20px_55px_rgba(6,43,32,0.16)] transition hover:border-[#d5e8b4]/45"
     >
       <div className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-[#d5e8b4]/10 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-20 -left-16 h-36 w-36 rounded-full bg-[#f7f3e8]/5 blur-3xl" />
@@ -59,9 +51,9 @@ export function PortalProjectCard({
             {project.category}
           </span>
 
-          <span className="rounded-full border border-white/15 px-3 py-1 text-xs text-[#b9c8ba]">
+          {project.year && <span className="rounded-full border border-white/15 px-3 py-1 text-xs text-[#b9c8ba]">
             {project.year}
-          </span>
+          </span>}
         </div>
 
         <span className="rounded-full border border-white/15 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#b9c8ba] transition group-hover:border-[#d5e8b4]/50 group-hover:text-[#d5e8b4]">
@@ -70,14 +62,10 @@ export function PortalProjectCard({
       </div>
 
       <div className="relative mt-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#8fb49a]">
-          {project.status}
-        </p>
-
-        <h3 className="mt-3 font-serif text-3xl leading-[0.95] tracking-[-0.05em] text-[#f7f3e8]">
+        <h4 className="font-serif text-3xl leading-[1.05] tracking-[-0.05em] text-[#f7f3e8]">
           {project.title}
           <span className="block text-[#8fb49a]">{project.subtitle}</span>
-        </h3>
+        </h4>
 
         <p className="mt-5 line-clamp-3 text-sm leading-6 text-[#c6d2c7]">
           {project.description}
@@ -92,6 +80,9 @@ export function PortalProjectCard({
               {tool}
             </span>
           ))}
+        </div>
+        <div className="mt-5 border-t border-white/15 pt-4 text-xs leading-6 text-[#d5e8b4]">
+          {project.metrics.slice(0, 2).map((metric) => <p key={metric}>{metric}</p>)}
         </div>
       </div>
     </motion.button>

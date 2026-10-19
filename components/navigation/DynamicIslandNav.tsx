@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "motion/react"
 import { X } from "lucide-react"
+import { SectionLink } from "@/components/navigation/SectionLink"
 
 const links = [
   { label: "Home", href: "#home", id: "home" },
@@ -11,7 +12,7 @@ const links = [
   { label: "Side Quests", href: "#side-quests", id: "side-quests" },
   { label: "Guestbook", href: "#guestbook", id: "guestbook" },
   { label: "Contact", href: "#contact", id: "contact" },
-]
+] as const
 
 export function DynamicIslandNav() {
   const [isOpen, setIsOpen] = useState(false)
@@ -69,6 +70,7 @@ export function DynamicIslandNav() {
   return (
     <div className="pointer-events-none fixed inset-x-0 top-5 z-50 flex justify-center px-4">
       <motion.nav
+        aria-label="Main navigation"
         layout
         onMouseEnter={() => {
           if (!isHome) setIsOpen(true)
@@ -76,13 +78,14 @@ export function DynamicIslandNav() {
         onMouseLeave={() => {
           if (!isHome) setIsOpen(false)
         }}
-        className="pointer-events-auto flex items-center overflow-hidden rounded-full border border-[#f7f3e8]/20 bg-[#0b3528]/90 px-2 py-2 shadow-[0_12px_35px_rgba(0,0,0,0.22)] backdrop-blur-xl"
+        className="pointer-events-auto flex max-w-full items-center overflow-hidden rounded-3xl border border-[#f7f3e8]/20 bg-[#0b3528]/90 px-2 py-2 shadow-[0_12px_35px_rgba(0,0,0,0.22)] backdrop-blur-xl"
       >
         {!isHome ? (
           <button
             type="button"
             onClick={() => setIsOpen((value) => !value)}
             aria-label={isOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={isOpen}
             className="flex h-10 shrink-0 items-center justify-center rounded-full bg-[#d5e8b4] px-4 text-sm font-bold text-[#0b2f23] transition hover:bg-[#f7f3e8]"
           >
             {isOpen ? <X size={18} /> : "DS"}
@@ -98,15 +101,16 @@ export function DynamicIslandNav() {
               transition={{ duration: 0.1, ease: "easeOut" }}
               className="overflow-hidden"
             >
-              <div className="flex items-center gap-1 px-2 md:gap-2">
+              <div className="flex flex-wrap justify-center items-center gap-1 px-2 md:gap-2">
                 {links.map((link) => {
                   const isActive = activeSection === link.id
 
                   return (
-                    <a
+                    <SectionLink
                       key={link.href}
                       href={link.href}
-                      onClick={handleNavigate}
+                      onNavigate={handleNavigate}
+                      aria-current={isActive ? "location" : undefined}
                       className={`relative whitespace-nowrap rounded-full px-3 py-2 text-xs font-medium transition md:px-4 md:text-sm ${
                         isActive
                           ? "text-[#0b2f23]"
@@ -126,7 +130,7 @@ export function DynamicIslandNav() {
                       ) : null}
 
                       <span className="relative z-10">{link.label}</span>
-                    </a>
+                    </SectionLink>
                   )
                 })}
               </div>

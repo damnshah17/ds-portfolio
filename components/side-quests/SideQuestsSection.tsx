@@ -1,5 +1,7 @@
 "use client"
 
+import { SectionLink } from "@/components/navigation/SectionLink"
+
 import { type FormEvent, useEffect, useState } from "react"
 import { AnimatePresence, motion } from "motion/react"
 import { Check, Circle, Plus, Send } from "lucide-react"
@@ -291,13 +293,13 @@ function AnimeScreen() {
           </div>
         </div>
 
-        <a
+        <SectionLink
           href="#side-quest-suggestions"
           className="relative mt-5 inline-flex items-center gap-2 rounded-full bg-[#d5e8b4] px-4 py-2 text-xs font-bold text-[#0b2f23] transition hover:bg-[#f7f3e8]"
         >
           <Plus size={14} />
           Suggest something new ↓
-        </a>
+        </SectionLink>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
@@ -571,13 +573,13 @@ function ShelfScreen() {
           anime, or drop a random hobby that sounds mildly unreasonable.
         </p>
 
-        <a
+        <SectionLink
           href="#side-quest-suggestions"
           className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#d5e8b4] px-4 py-2 text-xs font-bold text-[#0b2f23] transition hover:bg-[#f7f3e8]"
         >
           <Plus size={14} />
           Go to suggestions
-        </a>
+        </SectionLink>
       </div>
     </div>
   )
@@ -666,13 +668,7 @@ function KarateScreen() {
   )
 }
 
-function LegacyScreen({
-  gotHadCount,
-  onHandsUp,
-}: {
-  gotHadCount: number
-  onHandsUp: () => void
-}) {
+function LegacyScreen() {
   return (
     <div className="grid min-h-[460px] place-items-center rounded-[2rem] bg-[#0b2f23] p-7 text-center text-[#f7f3e8]">
       <div>
@@ -686,16 +682,16 @@ function LegacyScreen({
           If you came back from the tape, be honest. The archive got you.
         </p>
 
-        <button
-          type="button"
-          onClick={onHandsUp}
-          className="mt-6 rounded-full bg-[#d5e8b4] px-5 py-3 text-sm font-bold text-[#0b2f23] transition hover:-translate-y-0.5 hover:bg-[#f7f3e8]"
+        <SectionLink
+          href="#guestbook"
+          focusTargetId="guestbook-message"
+          className="mt-6 inline-block rounded-full bg-[#d5e8b4] px-5 py-3 text-sm font-bold text-[#0b2f23] transition hover:-translate-y-0.5 hover:bg-[#f7f3e8]"
         >
           🙌 Hands up, I got had
-        </button>
+        </SectionLink>
 
         <p className="mt-4 text-sm text-[#d5e8b4]">
-          {gotHadCount} brave visitors admitted defeat on this browser.
+          Confess in the guestbook. No judgment. Probably.
         </p>
       </div>
     </div>
@@ -704,12 +700,8 @@ function LegacyScreen({
 
 function InspectingApp({
   selectedItem,
-  gotHadCount,
-  onHandsUp,
 }: {
   selectedItem: SideQuestItem
-  gotHadCount: number
-  onHandsUp: () => void
 }) {
   return (
     <div className="h-[590px] overflow-hidden rounded-[2.2rem] border-[7px] border-[#0b2f23] bg-[#0b2f23] shadow-[0_24px_70px_rgba(6,43,32,0.22)]">
@@ -748,10 +740,7 @@ function InspectingApp({
               {selectedItem.type === "shelf" ? <ShelfScreen /> : null}
               {selectedItem.type === "sports" ? <KarateScreen /> : null}
               {selectedItem.type === "secret" ? (
-                <LegacyScreen
-                  gotHadCount={gotHadCount}
-                  onHandsUp={onHandsUp}
-                />
+                <LegacyScreen />
               ) : null}
             </motion.div>
           </AnimatePresence>
@@ -899,15 +888,6 @@ export function SideQuestsSection() {
   const [selectedItem, setSelectedItem] = useState<SideQuestItem>(
     sideQuestItems[0],
   )
-  const [gotHadCount, setGotHadCount] = useState(0)
-
-  useEffect(() => {
-    const savedCount = window.localStorage.getItem("sideQuestGotHadCount")
-
-    if (savedCount) {
-      setGotHadCount(Number(savedCount))
-    }
-  }, [])
 
   function handleSelect(item: SideQuestItem) {
     setSelectedItem(item)
@@ -917,13 +897,6 @@ export function SideQuestsSection() {
     }
   }
 
-  function handleHandsUp() {
-    setGotHadCount((current) => {
-      const next = current + 1
-      window.localStorage.setItem("sideQuestGotHadCount", String(next))
-      return next
-    })
-  }
 
   return (
     <section
@@ -989,8 +962,6 @@ export function SideQuestsSection() {
           <div>
             <InspectingApp
               selectedItem={selectedItem}
-              gotHadCount={gotHadCount}
-              onHandsUp={handleHandsUp}
             />
 
             <RecommendationConsole />

@@ -144,6 +144,7 @@ export function JourneyTimeline() {
                             current === item.id ? null : item.id,
                           )
                         }
+                        aria-expanded={isExpanded}
                         className="group w-full text-left"
                       >
                         <span
@@ -190,10 +191,10 @@ export function JourneyTimeline() {
                                 <div>
                                   <div className="flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-[#88a38f]">
                                     <CalendarDays size={14} />
-                                    Duration
+                                    Dates
                                   </div>
                                   <p className="mt-1 text-sm font-medium text-[#f7f3e8]">
-                                    {item.duration}
+                                    {item.period}
                                   </p>
                                 </div>
 

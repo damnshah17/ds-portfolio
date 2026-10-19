@@ -78,6 +78,7 @@ export function GuestbookForm() {
       <div className="mt-4 space-y-3">
         <input
           name="name"
+          aria-label="Your name (optional)"
           type="text"
           value={name}
           onChange={(event) => {
@@ -91,7 +92,9 @@ export function GuestbookForm() {
 
         <div>
           <textarea
+            id="guestbook-message"
             name="message"
+            aria-label="Guestbook message"
             value={message}
             onChange={(event) => {
               setMessage(event.target.value.slice(0, MAX_MESSAGE_LENGTH))
@@ -120,6 +123,7 @@ export function GuestbookForm() {
               <button
                 key={emoji}
                 type="button"
+                aria-pressed={selectedEmoji === emoji}
                 onClick={() => {
                   setSelectedEmoji(emoji)
                   if (status !== "idle") setStatus("idle")

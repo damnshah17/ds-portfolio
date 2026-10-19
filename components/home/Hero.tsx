@@ -1,11 +1,15 @@
 "use client"
 
+import { SectionLink } from "@/components/navigation/SectionLink"
+
 import { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "motion/react"
 import { ArrowDownRight, Download, Mail, MapPin, Sparkles } from "lucide-react"
 
+import { profile } from "@/components/data/profile"
+
 const roles = [
-  "Software Developer",
+  "Software Engineer",
   "AI / ML Builder",
   "Full-Stack Engineer",
   "Problem Solver",
@@ -23,11 +27,15 @@ const currentlyDoing = [
 const statusCards = [
   {
     label: "Base",
-    value: "Binghamton University, NY",
+    value: "Binghamton, New York",
   },
   {
     label: "Mode",
-    value: "AI + software + full-stack",
+    value: "Full-stack · Real-time · Applied AI",
+  },
+  {
+    label: "Education",
+    value: "MS CS · AI Track · 3.97/4.0 · Dec 2026 expected",
   },
   {
     label: "Side quest",
@@ -131,13 +139,13 @@ export function Hero() {
           >
             <div className="inline-flex items-center gap-2 rounded-full border border-[#d5e8b4]/20 bg-[#0a382a]/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#d5e8b4]">
               <MapPin size={14} />
-              Binghamton University, NY
+              Binghamton, New York
             </div>
 
             <p className="text-xl font-medium text-[#f7f3e8] sm:text-2xl">
               Hey, I&apos;m{" "}
               <span className="font-semibold text-[#d5e8b4]">
-                Daaman Shah
+                {profile.name}
               </span>
               .
             </p>
@@ -161,9 +169,8 @@ export function Hero() {
             transition={{ duration: 0.62, delay: 0.16 }}
             className="mt-6 max-w-2xl text-base leading-7 text-[#b9c8ba] sm:text-lg"
           >
-            I&apos;m an MS CS student at Binghamton building across AI, software,
-            full-stack products, accessibility ideas, and side quests that
-            refuse to leave my brain.
+            {profile.role} At Binghamton, I work on Watson Tech Talent;
+            my own projects explore reliable chat, game discovery, and AI-assisted tools.
           </motion.p>
 
           <motion.div
@@ -198,7 +205,7 @@ export function Hero() {
             transition={{ duration: 0.62, delay: 0.3 }}
             className="mt-7 flex flex-wrap gap-3"
           >
-            <a
+            <SectionLink
               href="#work"
               className="group inline-flex items-center gap-2 rounded-full bg-[#d5e8b4] px-5 py-3 text-sm font-semibold text-[#0b2f23] transition hover:-translate-y-0.5 hover:bg-[#f7f3e8]"
             >
@@ -207,23 +214,23 @@ export function Hero() {
                 size={17}
                 className="transition group-hover:translate-x-0.5 group-hover:translate-y-0.5"
               />
-            </a>
+            </SectionLink>
 
             <a
-              href="/resume/Daaman-Shah-Resume.pdf"
+              href={profile.resumeUrl}
               className="inline-flex items-center gap-2 rounded-full border border-[#f7f3e8]/20 px-5 py-3 text-sm font-medium text-[#f7f3e8] transition hover:border-[#d5e8b4] hover:bg-white/5"
             >
               <Download size={16} />
-              Resume
+              View resume
             </a>
 
-            <a
+            <SectionLink
               href="#contact"
               className="inline-flex items-center gap-2 rounded-full border border-[#f7f3e8]/20 px-5 py-3 text-sm font-medium text-[#f7f3e8] transition hover:border-[#d5e8b4] hover:bg-white/5"
             >
               <Mail size={16} />
-              Let's Connect
-            </a>
+              Contact me
+            </SectionLink>
           </motion.div>
         </div>
 

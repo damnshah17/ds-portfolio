@@ -27,3 +27,22 @@ section {
 #guestbook {
   overflow-anchor: none;
 }
+
+:focus-visible {
+  outline: 3px solid #e1aa66;
+  outline-offset: 4px;
+}
+
+.project-dialog { overflow-y: auto; overscroll-behavior: contain; }
+.project-detail-heading { font-size: .8rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #3b7358; }
+.project-link { border: 1px solid #3b7358; border-radius: 999px; padding: .65rem 1rem; font-size: .875rem; font-weight: 600; }
+.project-link:hover { background: #e4ead7; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

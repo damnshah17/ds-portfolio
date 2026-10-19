@@ -10,7 +10,6 @@ export default function Home() {
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#062b20] text-[#f7f3e8]">
       <DynamicIslandNav />
-      {/* <SectionMoodWidget /> */}
       <Hero />
       <JourneyTimeline />
       <WorkSection />

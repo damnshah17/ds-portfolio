@@ -11,8 +11,8 @@ type ProjectFiltersProps = {
 
 export function ProjectFilters({ activeFilter, onChange }: ProjectFiltersProps) {
   return (
-  <div className="max-w-full overflow-x-auto">
-    <div className="inline-flex min-w-max gap-2 rounded-full border border-[#0b2f23]/10 bg-[#e5ead9] p-2">
+  <div className="max-w-full" role="group" aria-label="Filter projects by category">
+    <div className="flex flex-wrap justify-center gap-2 rounded-3xl border border-[#0b2f23]/10 bg-[#e5ead9] p-2">
         {projectFilters.map((filter) => {
           const isActive = activeFilter === filter
 
@@ -20,6 +20,7 @@ export function ProjectFilters({ activeFilter, onChange }: ProjectFiltersProps) 
             <button
               key={filter}
               type="button"
+              aria-pressed={isActive}
               onClick={() => onChange(filter)}
               className={`relative whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition md:px-5 ${
                 isActive
